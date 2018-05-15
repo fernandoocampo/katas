@@ -37,3 +37,13 @@ func TestWhichIsTwo(t *testing.T) {
 		}
 	}
 }
+
+func TestWhichIsThree(t *testing.T) {
+	for _, item := range tables {
+		result := brackets.WhichIsThree(item.p1, item.p2)
+
+		if result != item.r {
+			t.Errorf("with params %s, %d, it expects %d, but it got %d", item.p1, item.p2, item.r, result)
+		}
+	}
+}
