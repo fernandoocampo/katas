@@ -21,6 +21,7 @@ type record struct {
 func Create(record string) (int, error) {
 
 	done := createAsync(sequence, record)
+
 	resp := <-done
 
 	if resp.err != nil {
@@ -35,6 +36,7 @@ func Create(record string) (int, error) {
 // it returns an error.
 func FindByID(id int) (string, error) {
 	future := make(futureDB, 1)
+	defer close(future)
 	go func() {
 		value, err := onedb.Find(id)
 		future <- &result{
@@ -57,6 +59,7 @@ func createAsync(id int, value string) futureDB {
 	future := make(futureDB, 1)
 
 	go func() {
+		defer close(future)
 		err := onedb.Save(id, value)
 		future <- &result{
 			err: err,

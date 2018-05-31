@@ -23,8 +23,10 @@ var tables = []data{
 func TestHowMuch(t *testing.T) {
 	for _, item := range tables {
 		result := howmuch.HowMuch(item.p1, item.p2)
-		if result != item.r {
-			t.Errorf("Given parameters %d and %d, it expects %x, but it got %x", item.p1, item.p2, item.r, result)
+		for i, ritem := range item.r {
+			if i > len(result) || result[i] != ritem {
+				t.Errorf("Given parameter %d and %d, it expects %x, but it got %x", item.p1, item.p2, item.r, result)
+			}
 		}
 	}
 }
