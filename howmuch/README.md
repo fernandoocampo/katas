@@ -29,5 +29,4 @@ Explanation of howmuch(1, 100):
 In the first answer his possible fortune is 37 so if he buys 7 boats each worth 5 it remains 37 - 7 * 5 = 2, if he buys 9 cars worth 4 each it remains 37 - 9 * 4 = 1. The same with f = 100: 100 - 7 * 14 = 2 and 100 - 9 * 11 = 1.
 
 Note
-
 See "Sample Tests" to know the format of the return.
