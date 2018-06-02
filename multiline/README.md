@@ -1,32 +1,18 @@
-// To execute Go code, please declare a func main() in a package "main"
+# DESCRIPTION
 
-/**
- * Given a flat file of book metadata, write a Library class that parses the   book data and provides an API that lets you search for all books containing a word.
- *
- *  API:
- *
- *  Library
- *    - <constructor>(input) -> returns a Library object
- *    - search(word) -> returns all books that contain the word anywhere in the title, author, or description fields. Only matches *whole* words.
- *   E.g. Searching for "My" or "book" would match a book containing "My book", but searching for "My b" or "boo" would *not* match.
- */
+The idea is that given a word the app should return the titles of books that contains that word in its title, author, or description.
 
-// library = ...
-// library.search("Hitchhiker") => ["Hitchhiker's Guide to the Galaxy"]
-// library.search("Douglas") => ["Hitchhiker's Guide to the Galaxy"]
-// library.search("Dune") => ["Dune"]
-// library.search("the") => ["Hitchhiker's Guide to the Galaxy", "Dune", "A Song Of Ice And Fire Series"]
-// library.search("asdfasfff") => []
-// We want library.search() to be as fast as possible
+Given a flat file of book metadata, write a Library class that parses the   book data and provides an API that lets you search for all books containing a word.
 
-package main
+API:
+Library
+- <constructor>(input) -> returns a Library object
+- search(word) -> returns all books that contain the word anywhere in the title, author, or description fields. Only matches *whole* words.
+- E.g. Searching for "My" or "book" would match a book containing "My book", but searching for "My b" or "boo" would *not* match.
 
-import (
-	"fmt"
-	"regexp"
-)
+The content is given in the following format.
 
-var content string = `TITLE: Hitchhiker's Guide to the Galaxy
+TITLE: Hitchhiker's Guide to the Galaxy
 AUTHOR: Douglas Adams
 DESCRIPTION: Seconds before the Earth is demolished to make way for a galactic freeway,
 Arthur Dent is plucked off the planet by his friend Ford Prefect, a researcher for the
@@ -51,13 +37,3 @@ AUTHOR: George R.R. Martin
 DESCRIPTION: As the Seven Kingdoms face a generation-long winter, the noble Stark family
 confronts the poisonous plots of the rival Lannisters, the emergence of the
 White Walkers, the arrival of barbarian hordes, and other threats.
-
-`
-
-func main() {
-
-	// multiline.Index(&content)
-	text := "White Walkers, the arrival of barbarian hordes, and other threats."
-	r := regexp.MustCompile(`(?i)\bArrival\b`)
-	fmt.Println(r.MatchString(text))
-}

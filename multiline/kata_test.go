@@ -1,30 +1,26 @@
-// To execute Go code, please declare a func main() in a package "main"
-
-/**
- * Given a flat file of book metadata, write a Library class that parses the   book data and provides an API that lets you search for all books containing a word.
- *
- *  API:
- *
- *  Library
- *    - <constructor>(input) -> returns a Library object
- *    - search(word) -> returns all books that contain the word anywhere in the title, author, or description fields. Only matches *whole* words.
- *   E.g. Searching for "My" or "book" would match a book containing "My book", but searching for "My b" or "boo" would *not* match.
- */
-
-// library = ...
-// library.search("Hitchhiker") => ["Hitchhiker's Guide to the Galaxy"]
-// library.search("Douglas") => ["Hitchhiker's Guide to the Galaxy"]
-// library.search("Dune") => ["Dune"]
-// library.search("the") => ["Hitchhiker's Guide to the Galaxy", "Dune", "A Song Of Ice And Fire Series"]
-// library.search("asdfasfff") => []
-// We want library.search() to be as fast as possible
-
-package main
+package multiline_test
 
 import (
-	"fmt"
-	"regexp"
+	"testing"
+
+	"github.com/fernandoocampo/katas/multiline"
 )
+
+type data struct {
+	param  string
+	result []string
+}
+
+var cases = []data{
+	{"Hitchhiker", []string{"Hitchhiker's Guide to the Galaxy"}},
+	{"Douglas", []string{"Hitchhiker's Guide to the Galaxy"}},
+	{"Dune", []string{"Dune"}},
+	{"the", []string{"Hitchhiker's Guide to the Galaxy", "Dune", "A Song Of Ice And Fire Series"}},
+	{"asdfasfff", []string{}},
+	{"Arrakis", []string{"Dune"}},
+	{"winter", []string{"A Song Of Ice And Fire Series"}},
+	{"demolished", []string{"Hitchhiker's Guide to the Galaxy"}},
+}
 
 var content string = `TITLE: Hitchhiker's Guide to the Galaxy
 AUTHOR: Douglas Adams
@@ -54,10 +50,18 @@ White Walkers, the arrival of barbarian hordes, and other threats.
 
 `
 
-func main() {
+func TestSearch(t *testing.T) {
+	multiline.Index(&content)
+	for _, item := range cases {
+		caseresult := multiline.Search(item.param)
 
-	// multiline.Index(&content)
-	text := "White Walkers, the arrival of barbarian hordes, and other threats."
-	r := regexp.MustCompile(`(?i)\bArrival\b`)
-	fmt.Println(r.MatchString(text))
+		if len(caseresult) != len(item.result) {
+			for i := 0; i < len(item.result); i++ {
+				if item.result[i] != caseresult[i] {
+					t.Errorf("Given parameter %s expects %v, but it got %v", item.param, item.result, caseresult)
+				}
+			}
+		}
+
+	}
 }
