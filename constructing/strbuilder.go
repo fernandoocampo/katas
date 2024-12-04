@@ -15,7 +15,7 @@ func StringConstructing(a, s string) int {
 		if i >= len(curr) {
 			curr += a
 		} else {
-			curr = curr[:i] + curr[i+1:len(curr)]
+			curr = curr[:i] + curr[i+1:]
 		}
 
 		ops++

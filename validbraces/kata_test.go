@@ -28,3 +28,12 @@ func TestValidBraces(t *testing.T) {
 		}
 	}
 }
+
+func TestValidBracesTwo(t *testing.T) {
+	for _, item := range tables {
+		result := validbraces.ValidBracesTwo(item.p)
+		if result != item.r {
+			t.Errorf("Given parameter %s expect %t, but got %t", item.p, item.r, result)
+		}
+	}
+}

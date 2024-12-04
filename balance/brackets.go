@@ -7,6 +7,17 @@ const closeparens rune = ')'
 const closesquares rune = ']'
 const closecurlies rune = '}'
 
+var keys = map[rune]rune{
+	'(': ')',
+	'[': ']',
+	'{': '}',
+}
+var values = map[rune]rune{
+	')': '(',
+	']': '[',
+	'}': '{',
+}
+
 func Balance(data string) bool {
 	openbracket := make([]rune, 0)
 
@@ -37,4 +48,63 @@ func closeBracket(expectedvalue rune, brackets []rune) []rune {
 		return brackets[:len(brackets)-1]
 	}
 	return brackets
+}
+
+func BalanceParentheses(value string) bool {
+	if value == "" {
+		return true
+	}
+
+	if value[0] == ')' {
+		return false
+	}
+
+	balance := 0
+	for _, v := range value {
+		if v == ')' {
+			balance--
+		} else {
+			balance++
+		}
+		if balance < 0 {
+			return false
+		}
+	}
+
+	return balance == 0
+}
+
+func BalanceTwo(data string) bool {
+	if data == "" {
+		return true
+	}
+
+	var stack []rune
+
+	for _, v := range data {
+		if _, ok := keys[v]; ok {
+			stack = append(stack, v)
+			continue
+		}
+
+		key, ok := values[v]
+		if !ok {
+			continue
+		}
+
+		if len(stack) == 0 && ok {
+			return false
+		}
+
+		if len(stack) > 0 && stack[len(stack)-1] != key {
+			return false
+		}
+
+		if len(stack) > 0 && stack[len(stack)-1] == key {
+			stack = stack[:len(stack)-1]
+			continue
+		}
+	}
+
+	return len(stack) == 0
 }

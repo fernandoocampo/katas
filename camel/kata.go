@@ -3,13 +3,15 @@ package camel
 import (
 	"fmt"
 	"strings"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 const sepdash = "-"
 const sepunderscore = "_"
 
 func ToCamelCase(s string) string {
-
 	if !strings.Contains(s, sepdash) && !strings.Contains(s, sepunderscore) {
 		return s
 	}
@@ -37,7 +39,8 @@ func ToCamelCaseTwo(s string) string {
 	if s == "" {
 		return ""
 	}
-	result := strings.Title(strings.Replace(strings.Replace(s, "-", " ", -1), "_", " ", -1))
+	caser := cases.Title(language.English)
+	result := caser.String(strings.Replace(strings.Replace(s, "-", " ", -1), "_", " ", -1))
 	result = s[:1] + result[1:]
 	result = strings.Replace(result, " ", "", -1)
 	return result

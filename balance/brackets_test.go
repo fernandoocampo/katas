@@ -31,3 +31,46 @@ func TestBalance(t *testing.T) {
 		}
 	}
 }
+
+func TestBalanceTwo(t *testing.T) {
+	for _, item := range tables {
+		result := balance.BalanceTwo(item.param)
+		if result != item.result {
+			t.Errorf("Given parameter %s, it expects %t, but it got %t", item.param, item.result, result)
+		}
+	}
+}
+
+func TestOnlyParentheses(t *testing.T) {
+	testData := map[string]struct {
+		value string
+		want  bool
+	}{
+		"()": {
+			value: "()",
+			want:  true,
+		},
+		")(": {
+			value: ")(",
+			want:  false,
+		},
+		"())))()()": {
+			value: "())))()()",
+			want:  false,
+		},
+		"())))((((": {
+			value: "())))((((",
+			want:  false,
+		},
+	}
+
+	for testName, testData := range testData {
+		// given
+		t.Run(testName, func(t *testing.T) {
+			got := balance.BalanceParentheses(testData.value)
+			if got != testData.want {
+				t.Errorf("want: %t, but got: %t", testData.want, got)
+			}
+		})
+	}
+}
